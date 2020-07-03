@@ -62,7 +62,7 @@ def main():
         location_pin.goto(indiana_latitude, indiana_longitude)
         location_pin.dot(5)
         passover = iss_risetime(indiana_latitude, indiana_longitude)
-        location_pin.write(passover, align='center')
+        location_pin.write(passover)
     except RuntimeError as e:
         print('ERROR: problem loading graphics: ' + str(e))
     if map is not None:
