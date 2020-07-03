@@ -58,7 +58,7 @@ def main():
         indiana_longitude = -86.148003
         location_pin = turtle.Turtle()
         location_pin.penup()
-        location_pin.color('yellow')
+        location_pin.color('red')
         location_pin.goto(indiana_latitude, indiana_longitude)
         location_pin.dot(5)
         passover = iss_risetime(indiana_latitude, indiana_longitude)
