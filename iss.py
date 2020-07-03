@@ -34,9 +34,16 @@ def iss_map(latitude, longitude):
     iss.shape(iss_img)
     iss.setheading(90)
     iss.penup()
-    iss.goto(longitude, latitude)
+    iss.goto(latitude, longitude)
     return map
 
+def iss_risetime(latitude, longitude):
+    params = {'lat': latitude, 'lon': longitude}
+    r = requests.get(iss_api + '/iss-pass.json', params=params)
+    r.raise_for_status()
+    
+    passover = r.json()['response'][1]['risetime']
+    return time.ctime(passover)
 
 def main():
     pass
