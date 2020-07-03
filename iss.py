@@ -64,6 +64,8 @@ def main():
         location_pin.color('yellow')
         location_pin.goto(indiana_latitude, indiana_longitude)
         location_pin.dot(5)
+        passover = iss_risetime(indiana_latitude, indiana_longitude)
+        location.write(passover, align='center')
         
 
     pass
