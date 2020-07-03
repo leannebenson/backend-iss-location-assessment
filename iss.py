@@ -12,12 +12,10 @@ iss_img = 'iss.gif'
 
 def astronaut_info():
     r = requests.get(iss_api + '/astros.json')
-    r.raise_for_status()
     return r.json()['people']
 
 def iss_location():
     r = requests.get(iss_api + '/iss-now.json')
-    r.raise_for_status()
     position = r.json()['iss_position']
     latitude = float(position['latitude'])
     longitude = float(position['longitude'])
@@ -40,7 +38,6 @@ def iss_map(latitude, longitude):
 def iss_risetime(latitude, longitude):
     params = {'lat': latitude, 'lon': longitude}
     r = requests.get(iss_api + '/iss-pass.json', params=params)
-    r.raise_for_status()
     
     passover = r.json()['response'][1]['risetime']
     return time.ctime(passover)
@@ -52,7 +49,7 @@ def main():
         print(' - {} in {}'.format(astro['name'], astro['craft']))
 
     latitude, longitude = iss_location()
-    print('Real-time ISS Co-Ordinates: latitude={:.02f} longitude={:.02f}'.format(latitude, longitude)')
+    print('Real-time ISS Co-Ordinates: latitude={:.02f} longitude={:.02f}'.format(latitude, longitude))
     
     map = None
     try:
@@ -65,11 +62,13 @@ def main():
         location_pin.goto(indiana_latitude, indiana_longitude)
         location_pin.dot(5)
         passover = iss_risetime(indiana_latitude, indiana_longitude)
-        location.write(passover, align='center')
-        
+        location_pin.write(passover, align='center')
+    except RuntimeError as e:
+        print('ERROR: problem loading graphics: ' + str(e))
+    if map is not None:
+        print('Click map to exit...')
+        map.exitonclick()
 
-    pass
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
