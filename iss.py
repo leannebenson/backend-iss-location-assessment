@@ -11,16 +11,19 @@ world_img = 'map.gif'
 iss_img = 'iss.gif'
 
 def astronaut_info():
-    r = requests.get(iss_api + '/astros.json')
+    r = requests.get(iss_api + '/astros.json').json
     return r.json()['people']
 
 def iss_location():
-    r = requests.get(iss_api + '/iss-now.json')
-    position = r.json()['iss_position']
-    latitude = float(position['latitude'])
-    longitude = float(position['longitude'])
+    r = requests.get(iss_api + '/iss-now.json').json()
+    iss_location = {
+        'iss_position': r['iss_position'],
+        'timestamp': time.ctime(r['timestamp'])
+    }
+    print(f"Current ISS Location is {iss_loc['iss_position']}\
+          on {iss_loc['timestamp']}")
 
-    return latitude, longitude
+    return iss_location
 
 def iss_map(latitude, longitude):
     map = turtle.Screen()
